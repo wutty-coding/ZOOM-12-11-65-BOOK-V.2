@@ -1,0 +1,339 @@
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">กรอกข้อมูล</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+<form id="myform" onsubmit="save(this)">
+                              <table class="table table-bordered">
+                               <input type="text" class="form-control" id="idplan" name="idplan">
+                                 <tr>
+                               <th width="30%">เบอร์โทร</th>
+                                  <td width="2%">:</td>
+                                  <td> <input type="text" class="form-control" id="searchTel" name="searchTel" maxlength="10" required oninput="readData()"></td>
+                                </tr>
+                                 <tr>
+                               <th width="30%">ชื่อผู้จัดทำ</th>
+                                  <td width="2%">:</td>
+                                  <td> <input type="text" class="form-control" id="inputname" name="inputname" readonly></td>
+                                </tr>
+                                <tr>
+                                 <tr>
+                               <th width="30%">วันเดือนปี</th>
+                                  <td width="2%">:</td>
+                                  <td> <input type="date" class="form-control" id="input1" name="input1" required></td>
+
+                                </tr>
+                                <tr>
+                                  <th width="30%">หัวข้อเรื่อง</th>
+                                  <td width="2%">:</td>
+                                  <td>   <input type="text" class="form-control" id="input2" name="input2" placeholder="ชื่อกิจกรรมที่ดำเนินการ เช่น ลอยกระทง" maxlength="100" required></td>
+
+                                </tr>
+                                <tr>
+                                  <th width="30%">รายละเอียด</th>
+                                  <td width="2%">:</td>
+                                  <td> <textarea type="text" rows="4" maxlength="300" class="form-control" id="input3" name="input3" placeholder="รายละเอียดของกิจกรมที่ดำเนินการ" required></textarea></td>
+                                </tr>
+                                <tr>
+
+                              </table>
+                         
+                            <img id="imguser" width="100" class="mb-2">
+                              <input type="text" id="imageuser"  class="form-control" accept="image/*" style="display:none">
+                            <div>
+                            <label>ภาพประกอบ1</label>
+                            <img id="img-content" width="120" class="mb-2">
+                              <input type="file" id="image-upload"  class="form-control" accept="image/*" required>
+                              <label>ภาพประกอบ2</label>
+                               <img id="img-content2" width="120" class="mb-2">
+                               <input type="file" id="image-upload2"  class="form-control" accept="image/*" required>
+                              <label>ภาพประกอบ3</label>
+                              <img id="img-content3" width="120" class="mb-2">
+                               <input type="file" id="image-upload3"  class="form-control" accept="image/*" required>
+                               <label>ภาพประกอบ4</label>
+                               <img id="img-content4" width="120" class="mb-2">
+                              <input type="file" id="image-upload4"  class="form-control" accept="image/*" required>
+                                <label>ภาพประกอบ5</label>
+                               <img id="img-content5" width="100" class="mb-2">
+                              <input type="file" id="image-upload5"  class="form-control" accept="image/*" required>
+                                <label>ภาพประกอบ6</label>
+                               <img id="img-content6" width="120" class="mb-2">
+                              <input type="file" id="image-upload6"  class="form-control" accept="image/*" required>
+                                </div>
+
+                                                      
+                              <br>
+                          <div class="col-md-12 text-center">
+       <button type="submit" id="btn1" class="btn bg-success mb-2 btn-block text-white"><i class="fas fa-upload"></i> บันทึกข้อมูล</button>
+        <button class="btn btn-primary" id="btn2" type="button" style="display:none">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> รอสักครู่... </button>
+                                        </div>
+    
+</form>
+
+ 
+      </div>
+    </div>
+  </div>
+</div>
+<!-- SweetAlert2 แจ้งเตือนสวยๆ -->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script>
+  let imguploadu = document.getElementById('imageuser');
+        imguploadu.addEventListener('change', function (e) {
+            if (e.target.files) {
+                let imageVal = e.target.files[0];
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = document.createElement("img");
+                    img.onload = function (event) {
+                        // This line is dynamically creating a canvas element
+                        var canvas = document.createElement("canvas");
+                     
+                        var ctx = canvas.getContext("2d");
+                            canvas.width=400
+                            canvas.height=420
+                            ctx.drawImage(img, 0, 0, 400, 420);
+
+                        var url = canvas.toDataURL(imageVal.type);
+                        document.getElementById("imguser").src = url;
+                    }
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(imageVal);
+            }
+        });
+
+  let imgupload = document.getElementById('image-upload');
+        imgupload.addEventListener('change', function (e) {
+            if (e.target.files) {
+                let imageVal = e.target.files[0];
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = document.createElement("img");
+                    img.onload = function (event) {
+                        // This line is dynamically creating a canvas element
+                        var canvas = document.createElement("canvas");
+                     
+                        var ctx = canvas.getContext("2d");
+                            canvas.width=540
+                            canvas.height=243
+                            ctx.drawImage(img, 0, 0, 540, 243);
+
+                        var url = canvas.toDataURL(imageVal.type);
+                        document.getElementById("img-content").src = url;
+                    }
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(imageVal);
+            }
+        });
+
+  let imgupload2 = document.getElementById('image-upload2');
+        imgupload2.addEventListener('change', function (e) {
+            if (e.target.files) {
+                let imageVal = e.target.files[0];
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = document.createElement("img");
+                    img.onload = function (event) {
+                        // This line is dynamically creating a canvas element
+                        var canvas = document.createElement("canvas");
+                     
+                        var ctx = canvas.getContext("2d");
+
+                            canvas.width=540
+                            canvas.height=243
+                            ctx.drawImage(img, 0, 0, 540, 243);
+
+                        var url = canvas.toDataURL(imageVal.type);
+                        document.getElementById("img-content2").src = url;
+                    }
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(imageVal);
+            }
+        });
+
+  let imgupload3 = document.getElementById('image-upload3');
+        imgupload3.addEventListener('change', function (e) {
+            if (e.target.files) {
+                let imageVal = e.target.files[0];
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = document.createElement("img");
+                    img.onload = function (event) {
+                        // This line is dynamically creating a canvas element
+                        var canvas = document.createElement("canvas");
+                     
+                        var ctx = canvas.getContext("2d");
+
+                            canvas.width=540
+                            canvas.height=243
+                            ctx.drawImage(img, 0, 0, 540, 243);
+
+                        var url = canvas.toDataURL(imageVal.type);
+                        document.getElementById("img-content3").src = url;
+                    }
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(imageVal);
+            }
+        });
+
+  let imgupload4 = document.getElementById('image-upload4');
+        imgupload4.addEventListener('change', function (e) {
+            if (e.target.files) {
+                let imageVal = e.target.files[0];
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = document.createElement("img");
+                    img.onload = function (event) {
+                        // This line is dynamically creating a canvas element
+                        var canvas = document.createElement("canvas");
+                     
+                        var ctx = canvas.getContext("2d");
+
+                            canvas.width=540
+                            canvas.height=243
+                            ctx.drawImage(img, 0, 0, 540, 243);
+
+                        var url = canvas.toDataURL(imageVal.type);
+                        document.getElementById("img-content4").src = url;
+                    }
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(imageVal);
+            }
+        });
+
+  let imgupload5 = document.getElementById('image-upload5');
+        imgupload5.addEventListener('change', function (e) {
+            if (e.target.files) {
+                let imageVal = e.target.files[0];
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = document.createElement("img");
+                    img.onload = function (event) {
+                        // This line is dynamically creating a canvas element
+                        var canvas = document.createElement("canvas");
+                     
+                        var ctx = canvas.getContext("2d");
+
+                            canvas.width=540
+                            canvas.height=243
+                            ctx.drawImage(img, 0, 0, 540, 243);
+
+                        var url = canvas.toDataURL(imageVal.type);
+                        document.getElementById("img-content5").src = url;
+                    }
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(imageVal);
+            }
+        });
+
+  let imgupload6 = document.getElementById('image-upload6');
+        imgupload6.addEventListener('change', function (e) {
+            if (e.target.files) {
+                let imageVal = e.target.files[0];
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = document.createElement("img");
+                    img.onload = function (event) {
+                        // This line is dynamically creating a canvas element
+                        var canvas = document.createElement("canvas");
+                     
+                        var ctx = canvas.getContext("2d");
+
+                            canvas.width=540
+                            canvas.height=243
+                            ctx.drawImage(img, 0, 0, 540, 243);
+
+                        var url = canvas.toDataURL(imageVal.type);
+                        document.getElementById("img-content6").src = url;
+                    }
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(imageVal);
+            }
+        });
+</script>
+
+
+<script>
+  function save(){
+         event.preventDefault();
+    document.getElementById('btn2').style.display="block"
+    document.getElementById('btn1').style.display="none"
+          var data = {}
+            data.searchTel = document.getElementById("searchTel").value;
+            data.idplan = document.getElementById("idplan").value;
+            data.inputname = document.getElementById("inputname").value;
+            data.imageuser = document.getElementById("imageuser").value;
+            data.input1 = document.getElementById("input1").value;
+            data.input2 = document.getElementById("input2").value;
+            data.input3 = document.getElementById("input3").value;
+            data.imgdata = document.getElementById("img-content").src;
+            data.imgdata2 = document.getElementById("img-content2").src;
+            data.imgdata3 = document.getElementById("img-content3").src;
+            data.imgdata4 = document.getElementById("img-content4").src;
+            data.imgdata5 = document.getElementById("img-content5").src;
+            data.imgdata6 = document.getElementById("img-content6").src;
+
+            google.script.run.withSuccessHandler(()=>{
+            }).saveData(data);
+            setTimeout(()=>{
+            reLoad()
+            },3000)
+         
+}
+    function reLoad() {
+       google.script.run.withSuccessHandler(function(url){
+         Swal.fire({
+              position: 'top-center',
+              icon: 'success',
+              title: 'บันทึกเรียบร้อยแล้ว',
+              showConfirmButton: false,
+              timer: 3000
+                  })
+        window.open(url,'_top');
+      })
+      .getURL();
+    }
+
+  function readData(){
+      var record = document.getElementById('searchTel').value;  
+      if(record!="" && record.length ==10){
+        google.script.run.withSuccessHandler(findSuccess).findRecord(record);
+        }
+        }
+    
+function findSuccess(output){
+       if(output.result == true){
+        Swal.fire({
+        icon: 'success',
+        title: 'ดึงข้อมูลสำเร็จ',
+        timer: 1000
+    });
+       document.getElementById('inputname').value = output.data[1]
+       document.getElementById('imguser').src = output.data[2] 
+       document.getElementById('imageuser').value = output.data[2] 
+       }else{
+             Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'กรอกรหัสไม่ถูกต้อง',
+              showConfirmButton: false,
+              timer: 1500
+            })
+       }
+       }
+
+</script>
