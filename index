@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Slider |Dev Mode</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+ <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <!-- CSS -->
+    <style>
+      /* ------------ GOOGLE FONTS ------------ */
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600&display=swap');
+
+/* ------------ VARIABLES ------------ */
+:root{
+  /* FONT */
+  --font: 'Prompt', sans-serif;
+
+  /* COLORS */
+  --color: #9176FF;
+  --bg-color: #f4f4f4;
+}
+
+/* ------------ BASE ------------ */
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  font-family: var(--font);
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+     background: url("https://wallpapercave.com/wp/wp2041325.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  /* background-color: var(--bg-color); */
+}
+
+/* ----------- SLIDER ------------ */
+.swiper{
+  width: 100%;
+}
+
+.swiper-wrapper{
+  width: 100%;
+  height: 35em;
+  display: flex;
+  align-items: center;
+}
+
+.card{
+  width: 20em;
+  height: 90%;
+  background-color: #fff;
+  border-radius: 2em;
+  box-shadow: 0 0 2em rgba(0, 0, 0, .2);
+  padding: 2em 1em;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  margin: 0 2em;
+}
+
+.swiper-slide:not(.swiper-slide-active){
+  filter: blur(1px);
+}
+
+.card__image{
+  width: 15em;
+  height: 22em;
+  border-radius: 2%;
+  border: 5px solid var(--color);
+  padding: 3px;
+  margin-bottom: 1em;
+}
+
+.card__image img{
+  width: 100%;
+  height: 100%;
+  /* border-radius: 50%; */
+  object-fit: cover;
+}
+
+.card__content{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.card__title{
+  font-size: 1.5rem;
+  font-weight: 500;
+  position: relative;
+  top: .2em;
+}
+
+.card__name{
+  color: var(--color);
+}
+
+.card__text{
+  text-align: center;
+  font-size: 1.1rem;
+  margin: 1em 0;
+}
+
+.card__btn{
+  background-color: var(--color);
+  color: #fff;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  border: none;
+  padding: .5em;
+  border-radius: .5em;
+  margin-top: .5em;
+  cursor: pointer;
+}
+.form-control{
+  /* border:none; */
+  font-size:14px;
+}
+    </style>
+    
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">สร้างวารสารประชาสัมพันธ์ออนไลน์</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="btn btn-outline-success me-2" aria-current="page" onclick="home()" href="#">Home</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search"  id="serachID" placeholder="กรอกเบอร์โทรเพื่อค้นหา" aria-label="Search">
+        <button class="btn btn-outline-success" onclick="forSerach()">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+  <section class="swiper mySwiper" id="DIV1">
+<center><h4></h4></center>
+    <div class="swiper-wrapper">
+ <? data.forEach( row =>{ ?>
+      <div class="card swiper-slide">
+        <div class="card__image">
+          <img src="<?!= row[1] ?>" alt="card image">
+        </div>
+        <div class="card__content">
+          <span class="card__title" id="list1"><?!= row[0] ?></span>
+          <a class="card__btn" id="<?!= row[1] ?>" onClick="reply_click(this.id)" data-bs-toggle="modal" data-bs-target="#exampleModal">คลิกเลือก</a>
+        </div>
+      </div>
+   <? });?>
+    </div>
+  </section>
+
+       <?!=include('form')?>
+
+ <div id="DIV2" class="bg-light mt-2">
+   <?!=include('dataAll')?>
+</div>
+  
+       
+<!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Initialize Swiper -->
+  <script>
+    var swiper = new Swiper(".mySwiper", {
+      effect: "coverflow",
+      grabCursor: true,
+      centeredSlides: true,
+      slidesPerView: "auto",
+      coverflowEffect: {
+        rotate: 0,
+        stretch: 0,
+        depth: 300,
+        modifier: 1,
+        slideShadows: false,
+      },
+      pagination: {
+        el: ".swiper-pagination",
+      },
+    });
+
+
+      function reply_click(clicked_id){
+        var id = clicked_id
+        document.getElementById("idplan").value = id;
+        }
+
+  </script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+</body>
+</html>
